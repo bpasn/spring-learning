@@ -6,3 +6,7 @@ spring:
     url: jdbc:mysql://localhost:3302/backend
     username: root
     password: 1234
+app:
+  token:
+    secret: 3we1+6CX1L6QCD0NUzi0gH0wkakqaqjbI8q6VoeMi8YjQJQpjxtRdxlLRyW6VpH2
+    issuer: BackendService

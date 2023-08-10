@@ -1,5 +1,7 @@
 package com.spring.learning.learning.config;
 
+import com.spring.learning.learning.config.token.TokenFilterConfigure;
+import com.spring.learning.learning.services.TokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +15,20 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig
 {
+
+    private final TokenService tokenService;
+
+    public SecurityConfig(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
+    private final String[] PUBLIC = {
+            "/api/actuator/**",
+            "/api/user/register",
+            "/api/user/login",
+            "/api/user/activate",
+            "/api/user/resend-activation-email",
+            "/api/socket/**"
+    };
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -22,10 +38,11 @@ public class SecurityConfig
         http
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(
-                        auth -> auth.requestMatchers("/api/user/test","/api/user/register","/api/user/login").permitAll()
-                                .anyRequest().authenticated());
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeRequests().requestMatchers(PUBLIC).anonymous()
+                .anyRequest().authenticated()
+                .and().apply(new TokenFilterConfigure(tokenService));
+
     return http.build();
     }
 }

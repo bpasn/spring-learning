@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class SUser implements IUser {
@@ -22,7 +23,7 @@ public class SUser implements IUser {
     }
 
     @Override
-    public EnUser register(RequestUser user) throws BaseException {
+    public EnUser create(RequestUser user) throws BaseException {
         if (Objects.isNull(user.getEmail())) throw new BaseException("api.create.email.null", HttpStatus.BAD_REQUEST);
         if (Objects.isNull(user.getPassword())) throw new BaseException("api.create.password.null",HttpStatus.BAD_REQUEST);
         if (Objects.isNull(user.getName())) throw new BaseException("api.create.name.null",HttpStatus.BAD_REQUEST);
@@ -38,9 +39,12 @@ public class SUser implements IUser {
     }
 
     @Override
-    public String login(String email, String password) throws BaseException {
-        throw new BaseException("");
+    public Optional<EnUser> findByEmail(String email) throws BaseException {
+        return userRepository.findByEmail(email);
     }
 
-
+    @Override
+    public boolean matcherPassword(String password, String match) {
+        return passwordEncoder.matches(password,match);
+    }
 }
