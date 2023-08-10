@@ -23,7 +23,8 @@ public class SecurityConfig
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/**").permitAll()
+                .authorizeHttpRequests(
+                        auth -> auth.requestMatchers("/api/user/test","/api/user/register","/api/user/login").permitAll()
                                 .anyRequest().authenticated());
     return http.build();
     }

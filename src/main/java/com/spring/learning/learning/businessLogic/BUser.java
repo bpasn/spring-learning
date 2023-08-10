@@ -1,6 +1,6 @@
 package com.spring.learning.learning.businessLogic;
 
-import com.spring.learning.learning.entitys.UserEntity;
+import com.spring.learning.learning.entitys.EnUser;
 import com.spring.learning.learning.exceptions.BaseException;
 import com.spring.learning.learning.mappers.MPUser;
 import com.spring.learning.learning.models.request.RequestUser;
@@ -21,7 +21,7 @@ public class BUser {
     }
 
     public MResponseUser register(RequestUser requestUser) throws BaseException {
-        UserEntity entity = sUser.register(requestUser);
+        EnUser entity = sUser.register(requestUser);
         return mpUser.toResponseUser(entity);
     }
 }

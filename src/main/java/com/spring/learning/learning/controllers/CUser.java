@@ -25,6 +25,6 @@ public class CUser {
     @PostMapping("register")
     public ResponseEntity<MResponseUser> register(@RequestBody RequestUser requestUser) throws BaseException {
         MResponseUser response = bUser.register(requestUser);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(201).body(response);
     }
 }
