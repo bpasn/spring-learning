@@ -2,10 +2,14 @@ package com.spring.learning.learning.config.token;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.spring.learning.learning.config.SecurityConfig;
+import com.spring.learning.learning.exceptions.BaseException;
+import com.spring.learning.learning.exceptions.UnauthroizationExecption;
 import com.spring.learning.learning.services.TokenService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.SneakyThrows;
 import org.apache.catalina.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,8 +50,8 @@ public class TokenFilter extends GenericFilterBean {
 
         DecodedJWT decode = tokenService.verify(token);
         if(decode == null){
-            chain.doFilter(request,response);
-            return;
+            chain.doFilter(request, response);
+           return;
         }
 
         String principal = decode.getClaim("principal").asString();

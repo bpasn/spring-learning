@@ -1,6 +1,7 @@
 package com.spring.learning.learning.exceptions;
 
 import lombok.Data;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,21 +11,21 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class ErrorAdviser {
-    @ExceptionHandler(BaseException.class)
-    public ResponseEntity<ErrorResponse> handleBaseException(BaseException e) {
-        ErrorResponse response = new ErrorResponse();
-        response.setError(e.getMessage());
-        response.setStatus(e.getStatus().value());
-        return new ResponseEntity<>(response,e.getStatus());
-    }
+   @ExceptionHandler(BaseException.class)
+   public ResponseEntity<ErrorResponse> handleBaseException(BaseException e) {
+       ErrorResponse response = new ErrorResponse();
+       response.setError(e.getMessage());
+       response.setStatus(e.getStatus().value());
+       return new ResponseEntity<>(response,e.getStatus());
+   }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleBaseException2(Exception e) {
-        ErrorResponse response = new ErrorResponse();
-        response.setError(e.getMessage());
-        response.setStatus(HttpStatus.EXPECTATION_FAILED.value());
-        return new ResponseEntity<>(response,HttpStatus.EXPECTATION_FAILED);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ErrorResponse> handleBaseException2(Exception e) {
+//        ErrorResponse response = new ErrorResponse();
+//        response.setError(e.getMessage());
+//        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//        return new ResponseEntity<>(response,HttpStatus.UNAUTHORIZED);
+//    }
 
     @Data
     public static class ErrorResponse {
